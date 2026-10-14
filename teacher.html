@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>КиберТренер - Кабинет учителя</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header id="dynamic-header"></header>
+    <div class="container">
+        <div class="class-tabs">
+            <button class="class-tab active" onclick="switchTab('groups')">📚 Мои группы</button>
+            <button class="class-tab" onclick="switchTab('students')">👥 Ученики</button>
+            <button class="class-tab" onclick="switchTab('create')">✏️ Создать задание</button>
+        </div>
+
+        <!-- Вкладка: Группы -->
+        <div id="tab-groups" class="card fade-in">
+            <h2>Мои группы</h2>
+            <button class="btn" onclick="showCreateGroup()" style="margin-bottom: 20px; width: auto;">+ Создать группу</button>
+            <div id="create-group-form" style="display: none; margin-bottom: 30px; padding: 20px; background: #f0f9ff; border-radius: 12px;">
+                <div class="form-group"><label>Название группы</label><input type="text" id="group-name" placeholder="Например: 7А класс"></div>
+                <div class="form-group">
+                    <label>Класс</label>
+                    <select id="group-grade">
+                        <option value="5">5 класс</option><option value="6">6 класс</option>
+                        <option value="7">7 класс</option><option value="8">8 класс</option><option value="9">9 класс</option>
+                    </select>
+                </div>
+                <button class="btn" onclick="submitCreateGroup()" style="width: auto;">Создать</button>
+                <button class="btn btn-secondary" onclick="hideCreateGroup()" style="width: auto; margin-left: 10px;">Отмена</button>
+            </div>
+            <div id="groups-list"></div>
+        </div>
+
+        <!-- Вкладка: Ученики -->
+        <div id="tab-students" class="card fade-in" style="display: none;">
+            <h2>Ученики</h2>
+            <div class="form-group">
+                <label>Выберите группу:</label>
+                <select id="group-filter" onchange="renderStudentsList()"></select>
+            </div>
+            <div id="students-list"></div>
+        </div>
+
+        <!-- Вкладка: Создание задания (ОБНОВЛЕННАЯ) -->
+        <div id="tab-create" class="card fade-in" style="display: none;">
+            <h2>Конструктор заданий</h2>
+            <form id="create-task-form" style="margin-top: 20px;">
+                <div class="form-group">
+                    <label>Для какого класса?</label>
+                    <select id="task-grade" required>
+                        <option value="5">5 класс</option><option value="6">6 класс</option>
+                        <option value="7">7 класс</option><option value="8">8 класс</option><option value="9">9 класс</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Тип задания</label>
+                    <select id="task-type" onchange="updateTaskForm()" required>
+                        <option value="quiz">📝 Тест (один правильный ответ)</option>
+                        <option value="terminal">💻 Хакерский терминал (ввод команд)</option>
+                        <option value="boss">👾 Босс-файт (битва с вопросами)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group"><label>Название задания</label><input type="text" id="task-title" required placeholder="Например: Взлом системы"></div>
+                <div class="form-group"><label>Описание / Инструкция</label><textarea id="task-description" rows="2" required placeholder="Что нужно сделать ученику?"></textarea></div>
+                <div class="form-group"><label>Баллы (XP) за выполнение</label><input type="number" id="task-points" min="10" value="50" required></div>
+
+                <!-- ПОЛЯ ДЛЯ ТЕСТА -->
+                <div id="fields-quiz" class="task-fields">
+                    <div class="form-group">
+                        <label>Варианты ответов (каждый с новой строки)</label>
+                        <textarea id="task-options" rows="4" placeholder="Открыть файл&#10;Удалить файл&#10;Игнорировать"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Номер правильного ответа (1, 2, 3...)</label>
+                        <input type="number" id="task-correct" min="1" required placeholder="2">
+                    </div>
+                    <div class="form-group"><label>Объяснение после ответа</label><textarea id="task-explanation" rows="2" placeholder="Почему этот ответ верный?"></textarea></div>
+                </div>
+
+                <!-- ПОЛЯ ДЛЯ ТЕРМИНАЛА -->
+                <div id="fields-terminal" class="task-fields" style="display: none;">
+                    <div class="form-group">
+                        <label>Шаги терминала (Формат: Команда | Сообщение об успехе | Сообщение об ошибке)</label>
+                        <textarea id="task-terminal-steps" rows="6" placeholder="scan | Сканирование завершено | Неверная команда. Попробуй: scan&#10;exploit | Уязвимость найдена | Ошибка. Введи: exploit&#10;exit | Сеанс завершен | Для выхода введи: exit"></textarea>
+                        <small style="color: #64748b;">💡 Каждый шаг с новой строки. Разделяйте части символом | (вертикальная черта)</small>
+                    </div>
+                </div>
+
+                <!-- ПОЛЯ ДЛЯ БОССА -->
+                <div id="fields-boss" class="task-fields" style="display: none;">
+                    <div class="form-group"><label>Имя босса</label><input type="text" id="boss-name" value="Dr. Virus"></div>
+                    <div class="form-group"><label>Аватар босса (эмодзи)</label><input type="text" id="boss-avatar" value="👾" maxlength="2"></div>
+                    <div class="form-group"><label>Здоровье босса (HP)</label><input type="number" id="boss-hp" value="100"></div>
+                    <div class="form-group">
+                        <label>Фазы атаки босса (Формат: Вопрос босса | Вариант 1, Вариант 2, Вариант 3 | Номер верного (0,1,2) | Урон боссу)</label>
+                        <textarea id="task-boss-phases" rows="6" placeholder="Он шлет вирус! Что делаешь? | Открыть, Удалить, Переслать | 1 | 40&#10;Требует пароль! | Дать, Отказать, Спросить | 1 | 60"></textarea>
+                        <small style="color: #64748b;">💡 Каждый этап с новой строки. Варианты через запятую. Номер верного ответа начинается с 0.</small>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn" style="margin-top: 20px;">🚀 Создать и опубликовать задание</button>
+            </form>
+        </div>
+    </div>
+    <script src="js/auth.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/teacher.js"></script>
+</body>
+</html>

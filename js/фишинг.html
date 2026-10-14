@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1280, height=720">
+    <title>Фишинговое письмо - Демо</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f0f9ff;
+            width: 1280px;
+            height: 720px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .email-container {
+            width: 1200px;
+            height: 680px;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(14, 165, 233, 0.2);
+            display: flex;
+            flex-direction: column;
+        }
+        .email-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .email-header h1 {
+            font-size: 28px;
+        }
+        .demo-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .email-body {
+            padding: 30px 40px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .sender-info {
+            background: #f8fafc;
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: #64748b;
+        }
+        .sender-info strong {
+            color: #1e3a5f;
+        }
+        .prize-section {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin: 20px 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            border-radius: 12px;
+        }
+        .prize-icon {
+            font-size: 80px;
+        }
+        .prize-info h2 {
+            color: #0284c7;
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+        .prize-info p {
+            color: #64748b;
+            font-size: 16px;
+        }
+        .urgent-notice {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 12px 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #92400e;
+        }
+        .urgent-notice strong {
+            color: #78350f;
+        }
+        .cta-button {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            margin: 15px 0;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .cta-button:hover {
+            transform: scale(1.02);
+        }
+        .suspicious-link {
+            color: #dc3545;
+            font-size: 12px;
+            word-break: break-all;
+            margin-top: 10px;
+        }
+        .footer {
+            background: #f8fafc;
+            padding: 15px 40px;
+            font-size: 12px;
+            color: #94a3b8;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="email-header">
+            <h1>🎉 ПОЗДРАВЛЯЕМ!</h1>
+            <div class="demo-badge">🎓 ДЕМО</div>
+        </div>
+        
+        <div class="email-body">
+            <div class="sender-info">
+                <strong>От:</strong> розыгрыш@free-iphone-2026.ru<br>
+                <strong>Тема:</strong> Вы выиграли iPhone 15 Pro Max!
+            </div>
+            
+            <p style="font-size: 16px; line-height: 1.5; margin-bottom: 15px;">
+                Здравствуйте! Ваш email выбран в нашем розыгрыше!
+            </p>
+            
+            <div class="prize-section">
+                <div class="prize-icon">📱</div>
+                <div class="prize-info">
+                    <h2>iPhone 15 Pro Max</h2>
+                    <p>Стоимость: 129 990 ₽</p>
+                </div>
+            </div>
+            
+            <div class="urgent-notice">
+                <strong>⚠️ ВНИМАНИЕ!</strong> Приз зарезервирован только на 24 часа!
+            </div>
+            
+            <p style="font-size: 14px; line-height: 1.5; margin-bottom: 10px;">
+                Для получения приза:
+            </p>
+            <ol style="margin-left: 30px; font-size: 14px; line-height: 1.8; color: #475569;">
+                <li>Перейдите по ссылке ниже</li>
+                <li>Заполните форму доставки</li>
+                <li>Введите данные карты для "верификации"</li>
+            </ol>
+            
+            <button class="cta-button" onclick="alert('Это фишинг! Не переходите по подозрительным ссылкам!')">
+                🎁 ПОЛУЧИТЬ IPHONE СЕЙЧАС!
+            </button>
+            
+            <div class="suspicious-link">
+                Ссылка: http://free-iphone-2026.ru/claim?user=winner123
+            </div>
+        </div>
+        
+        <div class="footer">
+            © 2026 "РозыгрышПризов" | Если не хотите получать такие письма, <a href="#" style="color: #0ea5e9;">отпишитесь</a>
+        </div>
+    </div>
+</body>
+</html>
